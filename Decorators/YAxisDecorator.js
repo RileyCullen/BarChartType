@@ -14,12 +14,21 @@ class YAxisDecorator extends ABarChartDecorator
      * 
      * @see ABarChartDecorator.js
      * 
-     * @param {BarChart} chart : This type is a concrete bar chart (or decorator)
-     *                           that we plan on decorating.
+     * @param {BarChart}   chart           : This type is a concrete bar chart (or decorator)
+     *                                       that we plan on decorating.
+     * @param {string}     lineColor       : The color of the axis and its tick marks
+     * @param {int}        lineStrokeWidth : width of the x-axis
+     * @param {int}        tickStrokeWidth : width of the x-axis ticks
+     * @param {JSON Array} font            : determines font size and font family
      */
-    constructor(chart)
+    constructor(chart, lineColor = 'black', lineStrokeWidth = 1, tickStrokeWidth = 0.5,
+        font = {'fontSize' : 8, 'fontFamily' : 'Times New Roman, Times, serif', 'textColor' : 'black'})
     {
         super(chart);
+        this._lineColor = lineColor;
+        this._lineStrokeWidth = lineStrokeWidth;
+        this._tickStrokeWidth = tickStrokeWidth;
+        this._font = font;
     }
 
     CreateBarChart()
@@ -53,8 +62,8 @@ class YAxisDecorator extends ABarChartDecorator
          */
         var yAxis = new Konva.Line({
             points: [0, 0, 0, this._chartHeight],
-            stroke: 'black',
-            strokeWidth: 1,
+            stroke: this._lineColor,
+            strokeWidth: this._lineStrokeWidth,
         });
         this._group.add(yAxis); 
     }
@@ -72,13 +81,13 @@ class YAxisDecorator extends ABarChartDecorator
         yTicks.forEach(d => {
             this._group.add(new Konva.Line({
                 points: [0, this._yScale(d) - 0.5, -6, this._yScale(d) - 0.5],
-                stroke: 'black',
-                strokeWidth: 0.5,
+                stroke: this._lineColor,
+                strokeWidth: this._tickStrokeWidth,
             }));
             this._group.add(new Konva.Text({
                 text: d,
-                fontSize: 8,
-                fontFamily: "Times New Roman, Times, serif",
+                fontSize: this._font.fontSize,
+                fontFamily: this._font.fontFamily,
                 x: -15,
                 y: this._yScale(d) - 5,
             }));
