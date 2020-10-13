@@ -65,6 +65,7 @@ class YAxisDecorator extends ABarChartDecorator
             stroke: this._lineColor,
             strokeWidth: this._lineStrokeWidth,
         });
+        yAxis.rotate(this._rotateBy);
         this._group.add(yAxis); 
     }
 
@@ -78,13 +79,14 @@ class YAxisDecorator extends ABarChartDecorator
          *              added to the Konva.Group.
          */
         var yTicks = this._yScale.ticks(10);
+        var helper = new Konva.Group();
         yTicks.forEach(d => {
-            this._group.add(new Konva.Line({
+            helper.add(new Konva.Line({
                 points: [0, this._yScale(d) - 0.5, -6, this._yScale(d) - 0.5],
                 stroke: this._lineColor,
                 strokeWidth: this._tickStrokeWidth,
             }));
-            this._group.add(new Konva.Text({
+            helper.add(new Konva.Text({
                 text: d,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
@@ -92,5 +94,7 @@ class YAxisDecorator extends ABarChartDecorator
                 y: this._yScale(d) - 5,
             }));
         });
+        this._group.add(helper);
+        helper.rotate(this._rotateBy);
     }
 }

@@ -60,11 +60,14 @@ class XAxisDecorator extends ABarChartDecorator
          * @description This function adds a line to the Konva.Group that will
          *              serve as the base for the x-axis.
          */
-        this._group.add(new Konva.Line({
+        var helper = new Konva.Group();
+        helper.add(new Konva.Line({
             points: [0, this._chartHeight, this._chartWidth, this._chartHeight],
             stroke: this._lineColor,
             strokeWidth: this._lineStrokeWidth,
         }));
+        helper.rotate(this._rotateBy)
+        this._group.add(helper);
     }
 
     _AddTicks()
@@ -78,9 +81,9 @@ class XAxisDecorator extends ABarChartDecorator
          */
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
-
+        var helper = new Konva.Group();
         this._xScale.domain().forEach(d => {
-            this._group.add(new Konva.Line({
+            helper.add(new Konva.Line({
                 points: [this._xScale(d) + this._xScale.bandwidth() / 2, 
                     this._chartHeight, this._xScale(d) + this._xScale.bandwidth() / 2, 
                     this._chartHeight + 6],
@@ -88,7 +91,7 @@ class XAxisDecorator extends ABarChartDecorator
                 strokeWidth: this._tickStrokeWidth,
             }));
 
-            this._group.add(new Konva.Text({
+            helper.add(new Konva.Text({
                 text: d,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
@@ -96,5 +99,7 @@ class XAxisDecorator extends ABarChartDecorator
                 y: this._chartHeight + 8,
             }));
         });
+        this._group.add(helper);
+        helper.rotate(this._rotateBy);
     }
 }

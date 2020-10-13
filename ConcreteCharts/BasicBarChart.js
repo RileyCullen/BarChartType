@@ -14,9 +14,9 @@ class BasicBarChart extends ABarChart
      * 
      * @see ABarChart.js for constructor parameters.
      */
-    constructor(data, group, width, height, padding)
+    constructor(data, group, width, height, padding, rotateBy = 0)
     {
-        super(data, group, width, height, padding);
+        super(data, group, width, height, padding, rotateBy);
     }
 
     CreateBarChart()
@@ -87,8 +87,9 @@ class BasicBarChart extends ABarChart
          *              a scaled value of d.value and whose x location corresponds
          *              to a mapped value of d.category.
          */
+        var helper = new Konva.Group();
         this._data.forEach(d => {
-            this._group.add(new Konva.Rect({
+            helper.add(new Konva.Rect({
                 x: this._xScale(d.category),
                 y: this._chartHeight,
                 width: this._xScale.bandwidth(),
@@ -96,5 +97,7 @@ class BasicBarChart extends ABarChart
                 fill: d.color,
             }));
         });
+        this._group.add(helper);
+        helper.rotate(this._rotateBy);
     }
 }

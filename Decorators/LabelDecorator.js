@@ -48,13 +48,14 @@ class LabelDecorator extends ABarChartDecorator
          *              passed through the constructor as well as the d.value for 
          *              that particular bar.
          */
+        var helper = new Konva.Group();
         this._data.forEach(d => {
             var label = d.value;
 
             if (this._isPercentage) label += '%';
             if (this._isCategory) label += ' ' + d.category;
 
-            this._group.add(new Konva.Text({
+            helper.add(new Konva.Text({
                 x: this._xScale(d.category) + 6,
                 y: this._chartHeight - ((this._chartHeight - this._yScale(d.value)) / 2),
                 text: label,
@@ -63,5 +64,7 @@ class LabelDecorator extends ABarChartDecorator
                 fill: this._font.fontColor,
             }));
         });
+        this._group.add(helper);
+        helper.rotate(this._rotateBy);
     }
 }

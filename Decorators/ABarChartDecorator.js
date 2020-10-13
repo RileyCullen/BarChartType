@@ -19,7 +19,7 @@ class ABarChartDecorator extends ABarChart
      *                           that we plan on decorating.
      */
     constructor(chart) {
-        super(chart._data, chart._group, chart._chartWidth, chart._chartHeight, chart._padding);
+        super(chart._data, chart._group, chart._chartWidth, chart._chartHeight, chart._padding, chart._rotateBy);
         this._chart = chart;
         
         if (this.constructor === ABarChartDecorator) {

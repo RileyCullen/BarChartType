@@ -44,14 +44,17 @@ class RemainderDecorator extends ABarChartDecorator
          * @summary     This function draws the remainder bars.
          * @description See summary.
          */
+        var helper = new Konva.Group();
         this._data.forEach(d => {
-            this._group.add(new Konva.Rect({
+            helper.add(new Konva.Rect({
                 x: this._xScale(d.category),
                 y: this._yScale(d.value),
                 width: this._xScale.bandwidth(),
-                height: -(20 + this._yScale(d.value)),
+                height: -(this._yScale(d.value)),
                 fill: this._barColor,
             }));
         });
+        this._group.add(helper);
+        helper.rotate(this._rotateBy);
     }
 }

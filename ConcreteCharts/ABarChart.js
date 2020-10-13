@@ -27,7 +27,7 @@ class ABarChart
      * @param {double}      height  : The height of the bar chart
      * @param {double}      padding : The space between the bars within a bar chart
     */
-    constructor(data, group, width, height, padding)
+    constructor(data, group, width, height, padding, rotateBy)
     {
         /**
          * @summary     Constructor that initializes the BarChart object.
@@ -49,6 +49,7 @@ class ABarChart
         this._chartWidth = width;
         this._chartHeight = height;
         this._padding = padding;
+        this._rotateBy = rotateBy
         this._xScale = d3.scaleBand()
             .range([0, this._chartWidth])
             .padding(this._padding);
