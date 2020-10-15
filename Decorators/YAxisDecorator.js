@@ -22,7 +22,7 @@ class YAxisDecorator extends ABarChartDecorator
      * @param {JSON Array} font            : determines font size and font family
      */
     constructor(chart, lineColor = 'black', lineStrokeWidth = 1, tickStrokeWidth = 0.5,
-        font = {'fontSize' : 8, 'fontFamily' : 'Times New Roman, Times, serif', 'textColor' : 'black'})
+        font = {'fontSize' : 10, 'fontFamily' : 'Times New Roman, Times, serif', 'textColor' : 'black'})
     {
         super(chart);
         this._lineColor = lineColor;
@@ -76,13 +76,19 @@ class YAxisDecorator extends ABarChartDecorator
          * @description This function iterates through the yScale's range yTick 
          *              times and assigns each of those ticks a numeric value. 
          *              These tick marks and corresponding tick mark values are 
-         *              added to the Konva.Group.
+         *              added to the Konva.Group. It should be noted that the 
+         *              canvas API does NOT offer a built in function to determine
+         *              the height of text. Thus, we approximate the height of text
+         *              using the width captial 'M'.
          */
         var yTicks = this._yScale.ticks(10);
         var helper = new Konva.Group();
+        var tickLength = 6;
+        var numberHeight = GetFontSize('M', this._font); 
         yTicks.forEach(d => {
+            var numberWidth = GetFontSize(d, this._font);
             helper.add(new Konva.Line({
-                points: [0, this._yScale(d) - 0.5, -6, this._yScale(d) - 0.5],
+                points: [0, this._yScale(d) - 0.5, -tickLength, this._yScale(d) - 0.5],
                 stroke: this._lineColor,
                 strokeWidth: this._tickStrokeWidth,
             }));
@@ -90,8 +96,8 @@ class YAxisDecorator extends ABarChartDecorator
                 text: d,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
-                x: -15,
-                y: this._yScale(d) - 5,
+                x: -tickLength - numberWidth - 5,
+                y: this._yScale(d) - (numberHeight / 2),
             }));
         });
         this._group.add(helper);

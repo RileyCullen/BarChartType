@@ -11,6 +11,7 @@ class XAxisDecorator extends ABarChartDecorator
      *              to the given bar chart (or decorator).
      * 
      * @requires ABarChartDecorator.js
+     * @requires FontWidthDetector.js
      * 
      * @see ABarChartDecorator.js
      * 
@@ -22,7 +23,7 @@ class XAxisDecorator extends ABarChartDecorator
      * @param {JSON Array} font            : determines font size and font family
      */
     constructor(chart, lineColor = 'black', lineStrokeWidth = 1, tickStrokeWidth = 0.5,
-        font = {'fontSize' : 8, 'fontFamily' : 'Times New Roman, Times, serif', 'textColor' : 'black'})
+        font = {'fontSize' : 10, 'fontFamily' : 'Times New Roman, Times, serif', 'textColor' : 'black'})
     {
         super(chart);
         this._lineColor = lineColor;
@@ -79,9 +80,8 @@ class XAxisDecorator extends ABarChartDecorator
          *              mark. The tick mark and the name of the mapped value are
          *              then added to the Konva.Group.
          */
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
         var helper = new Konva.Group();
+        var textHeight = GetFontSize('M', this._font);
         this._xScale.domain().forEach(d => {
             helper.add(new Konva.Line({
                 points: [this._xScale(d) + this._xScale.bandwidth() / 2, 
@@ -91,12 +91,14 @@ class XAxisDecorator extends ABarChartDecorator
                 strokeWidth: this._tickStrokeWidth,
             }));
 
+            var textWidth = GetFontSize(d, this._font);
+
             helper.add(new Konva.Text({
                 text: d,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
-                x: (this._xScale(d) + this._xScale.bandwidth() / 2) - (ctx.measureText(d).width / 2),
-                y: this._chartHeight + 8,
+                x: (this._xScale(d) + this._xScale.bandwidth() / 2) - (textWidth / 2),
+                y: this._chartHeight + (textHeight / 2),
             }));
         });
         this._group.add(helper);
