@@ -13,19 +13,21 @@ class ABarChart
      * @requires Konva.JS
      * @requires D3.js
      * 
-     * @param {JSON array}  data    : The data that will be used to populate the a
-     *                              given bar chart. The data json array MUST be 
-     *                              in the following format:
+     * @param {JSON array}  data     : The data that will be used to populate the a
+     *                               given bar chart. The data json array MUST be 
+     *                               in the following format:
      * 
-     *                              data[i] = {
-     *                                 'category': 'categoryName',
-     *                                 'value': value,
-     *                                 'color: color, 
-     *                              }
-     * @param {Konva.Group} group   : The Konva.Group we will add the bar chart to
-     * @param {double}      width   : The width of the bar chart
-     * @param {double}      height  : The height of the bar chart
-     * @param {double}      padding : The space between the bars within a bar chart
+     *                               data[i] = {
+     *                                  'category': 'categoryName',
+     *                                  'value': value,
+     *                                  'color: color, 
+     *                               }
+     * @param {Konva.Group} group    : The Konva.Group we will add the bar chart to
+     * @param {double}      width    : The width of the bar chart
+     * @param {double}      height   : The height of the bar chart
+     * @param {double}      padding  : The space between the bars within a bar chart
+     * @param {int}         rotateBy : The amount we will rotate the bar chart by
+     *                                 (note that this value can only be 0 or 90)
     */
     constructor(data, group, width, height, padding, rotateBy)
     {
@@ -49,7 +51,7 @@ class ABarChart
         this._chartWidth = width;
         this._chartHeight = height;
         this._padding = padding;
-        this._rotateBy = rotateBy
+        this._rotateBy = (rotateBy == 90 || rotateBy == 0) ? rotateBy : 0;
         this._xScale = d3.scaleBand()
             .range([0, this._chartWidth])
             .padding(this._padding);
