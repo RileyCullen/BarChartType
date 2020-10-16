@@ -88,7 +88,7 @@ class ChartDescriptorDecorator extends ABarChartDecorator
         });
 
         if (this._rotateBy === 90) {
-            helper.setAttr('x', helper.getAttr('x') - this._chartHeight);
+            helper.setAttr('x', helper.getAttr('x') - this._chartHeight - this._xScale(this._data[0].category));
             helper.setAttr('y', helper.getAttr('y') - this._xScale.bandwidth());
         }
 
