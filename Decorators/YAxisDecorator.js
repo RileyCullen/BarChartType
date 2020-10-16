@@ -92,13 +92,20 @@ class YAxisDecorator extends ABarChartDecorator
                 stroke: this._lineColor,
                 strokeWidth: this._tickStrokeWidth,
             }));
-            helper.add(new Konva.Text({
+            var text = new Konva.Text({
                 text: d,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
                 x: -tickLength - numberWidth - 5,
                 y: this._yScale(d) - (numberHeight / 2),
-            }));
+            }); 
+
+            if (this._rotateBy === 90) {
+                text.setAttr('x', text.getAttr('x') + (numberWidth / 2) - (numberHeight));
+                text.setAttr('y', text.getAttr('y') + (numberHeight) - numberWidth / 2);
+                text.rotate(-this._rotateBy)
+            }
+            helper.add(text);
         });
         this._group.add(helper);
         helper.rotate(this._rotateBy);

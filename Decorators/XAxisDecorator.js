@@ -92,14 +92,19 @@ class XAxisDecorator extends ABarChartDecorator
             }));
 
             var textWidth = GetFontSize(d, this._font);
-
-            helper.add(new Konva.Text({
+            var text = new Konva.Text({
                 text: d,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
                 x: (this._xScale(d) + this._xScale.bandwidth() / 2) - (textWidth / 2),
                 y: this._chartHeight + (textHeight / 2),
-            }));
+            }) 
+            helper.add(text);
+            if (this._rotateBy === 90) {
+                text.setAttr('x', text.getAttr('x') + (textWidth / 2) - (textHeight / 2));
+                text.setAttr('y', text.getAttr('y') + (textHeight) + textWidth);
+                text.rotate(-this._rotateBy);
+            }
         });
         this._group.add(helper);
         helper.rotate(this._rotateBy);
