@@ -55,14 +55,17 @@ class LabelDecorator extends ABarChartDecorator
             if (this._isPercentage) label += '%';
             if (this._isCategory) label += ' ' + d.category;
 
-            helper.add(new Konva.Text({
-                x: this._xScale(d.category) + 6,
+            var labelWidth = GetFontSize(label, this._font);
+            var text = new Konva.Text({
+                x: (this._xScale(d.category) + this._xScale.bandwidth() / 2) - (labelWidth / 2),
                 y: this._chartHeight - ((this._chartHeight - this._yScale(d.value)) / 2),
                 text: label,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
                 fill: this._font.fontColor,
-            }));
+            }); 
+            text.rotate(-this._rotateBy);
+            helper.add(text);
         });
         this._group.add(helper);
         helper.rotate(this._rotateBy);
