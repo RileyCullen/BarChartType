@@ -61,6 +61,7 @@ class ChartDescriptorDecorator extends ABarChartDecorator
 
         this._data.forEach((d, i) => {
             var textWidth = GetFontSize(d.category, this._font);
+            var textHeight = GetFontSize('M', this._font);
 
             var rectX = cumulativeX;
             var textX = rectX + this._iconSize + textOffset;
@@ -75,16 +76,22 @@ class ChartDescriptorDecorator extends ABarChartDecorator
                 height: this._iconSize,
                 fill: d.color,
             }));
-            helper.add(new Konva.Text({
+            var text = new Konva.Text({
                 text: d.category,
                 x: textX,
                 y: startingY,
                 fill: this._font.color,
                 fontSize: this._font.fontSize,
                 fontFamily: this._font.fontFamily,
-            }));
+            });
+            helper.add(text);
         });
-        helper.rotate(this._rotateBy);
+
+        if (this._rotateBy === 90) {
+            helper.setAttr('x', helper.getAttr('x') - this._chartHeight);
+            helper.setAttr('y', helper.getAttr('y') - this._xScale.bandwidth());
+        }
+
         this._group.add(helper);
     }
 
